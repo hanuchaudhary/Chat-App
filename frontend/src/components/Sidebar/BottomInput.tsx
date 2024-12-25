@@ -1,18 +1,45 @@
-export default function BottomInput() {
-    return (
-      <div className="fixed rounded-t-xl bottom-0 left-0 flex w-96 items-center justify-between bg-neutral-700 p-4">
-        <input
+import { useState } from 'react';
+import { motion } from 'framer-motion';
+import { Send } from 'lucide-react';
+
+interface InputProps {
+  onchange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onclick: () => void;
+  value: string;
+}
+
+export default function BottomInput({ onchange, value, onclick }: InputProps) {
+  const [isFocused, setIsFocused] = useState(false);
+
+  return (
+    <motion.div
+      initial={{ y: 100, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+      className="fixed bottom-0 left-0 w-96 p-4 bg-gradient-to-r from-purple-900 to-indigo-900 rounded-tr-3xl shadow-lg"
+    >
+      <div className="flex items-center justify-between bg-white bg-opacity-10 rounded-full p-2">
+        <motion.input
+          onChange={onchange}
+          value={value}
           type="text"
           placeholder="Type your message..."
-          className="mr-2 flex-grow rounded-md border border-neutral-600 bg-neutral-800 px-3 py-2 text-white placeholder-neutral-400 focus:border-neutral-500 focus:outline-none"
+          className="flex-grow bg-transparent text-white placeholder-purple-300 px-4 py-2 focus:outline-none"
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
+          animate={isFocused ? { scale: 1.02 } : { scale: 1 }}
+          transition={{ type: "spring", stiffness: 400, damping: 10 }}
         />
-        <button
-          className="rounded-md bg-white px-4 py-2 text-black font-semibold transition-colors hover:bg-neutral-100"
+        <motion.button
+          onClick={onclick}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          className="bg-purple-500 text-white rounded-full p-2 shadow-md hover:bg-purple-600 transition-colors duration-200"
         >
-          Send
-        </button>
+          <Send size={20} />
+        </motion.button>
       </div>
-    )
-  }
-  
-  
+    </motion.div>
+  );
+}
+

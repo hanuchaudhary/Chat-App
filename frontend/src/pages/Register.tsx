@@ -11,7 +11,7 @@ export const Register = () => {
     try {
       const response = await axios.post("/users/login", { email, password });
       const data = response.data;
-      localStorage.setItem("token",data.token);
+      localStorage.setItem("token", `Bearer ${data.token}`);
       localStorage.setItem("user", JSON.stringify(data.user));
       navigate("/projects");
     } catch (error) {

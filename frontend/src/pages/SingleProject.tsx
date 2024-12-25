@@ -10,6 +10,8 @@ export default function Project() {
   const handleSidebarOpen = () => setIsOpen(!isOpen);
   const { fetchSingleProject, project } = useSingleProjectStore();
 
+  
+
   const { projectId } = useParams();
   useEffect(() => {
     fetchSingleProject(projectId as string);

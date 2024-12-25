@@ -1,31 +1,40 @@
-import { FC } from 'react';
-import { IncomingMessage } from './IncommingMessage'
-import { OutgoingMessage } from './OutgoingMessage'
+import { motion } from "framer-motion";
 
-export const Chat: FC = () => {
-  return (
-    <div className="flex flex-col overflow-y-auto">
-      <IncomingMessage 
-        message="Hey there! How are you doing?" 
-        timestamp="10:00 AM"
-        email="friend@example.com"
-      />
-      <OutgoingMessage 
-        message="Hi! I'm doing great, thanks for asking. How about you?" 
-        timestamp="10:02 AM"
-        email="me@example.com"
-      />
-      <IncomingMessage 
-        message="I'm good too! Just working on some new projects." 
-        timestamp="10:05 AM"
-        email="friend@example.com"
-      />
-      <OutgoingMessage 
-        message="That sounds interesting! What kind of projects are you working on?" 
-        timestamp="10:07 AM"
-        email="me@example.com"
-      />
-    </div>
-  )
+interface Message {
+  sender: string;
+  message: string;
 }
 
+interface ChatProps {
+  messages: Message[];
+  currentUser: { _id: string };
+}
+
+export function Chat({ messages, currentUser }: ChatProps) {
+  return (
+    <div className="space-y-4">
+      {messages.map((msg, index) => (
+        <motion.div
+          key={index}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          transition={{ duration: 0.3 }}
+          className={`flex ${
+            msg.sender === currentUser._id ? "justify-end" : "justify-start"
+          }`}
+        >
+          <div
+            className={`max-w-3/4 rounded-2xl px-4 py-2 ${
+              msg.sender === currentUser._id
+                ? "bg-purple-500 text-white"
+                : "bg-white bg-opacity-10 text-white"
+            }`}
+          >
+            <p className="text-sm">{msg.message}</p>
+          </div>
+        </motion.div>
+      ))}
+    </div>
+  );
+}

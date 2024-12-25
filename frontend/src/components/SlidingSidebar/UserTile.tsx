@@ -1,19 +1,37 @@
+import { motion } from "framer-motion";
 import { User } from "../../store/UserStore/useBulkUsersStore";
 
-export default function UserTile(user : User
-) {
+export default function UserTile({ email }: User) {
   return (
-    <div className="w-full flex justify-between items-center p-4 bg-neutral-500 rounded-xl font-semibold cursor-pointer">
-      <div className="h-10 w-10 rounded-full overflow-hidden shadow-lg">
-        <img
-        className="object-cover"
+    <motion.div
+      className="w-full flex items-center p-4 bg-gradient-to-r from-purple-500 to-indigo-600 rounded-xl shadow-lg cursor-pointer transition-all duration-300 hover:shadow-xl"
+      whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
+    >
+      <div className="h-12 w-12 rounded-full overflow-hidden shadow-lg mr-4 border-2 border-white">
+        <motion.img
+          className="object-cover w-full h-full"
           src="https://i.pinimg.com/736x/fd/82/61/fd8261b84d8528a287d8871c1a0fcc13.jpg"
-          alt=""
+          alt={`Avatar for ${email}`}
+          whileHover={{ scale: 1.1 }}
+          transition={{ type: "spring", stiffness: 400, damping: 10 }}
         />
       </div>
-      <div>
-        <h1>{user.email}</h1>
+      <div className="flex-grow">
+        <h2 className="text-lg font-semibold text-white truncate">{email}</h2>
       </div>
-    </div>
+      <motion.svg
+        className="w-6 h-6 text-white opacity-50"
+        fill="none"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        whileHover={{ scale: 1.2, opacity: 1 }}
+      >
+        <path d="M9 5l7 7-7 7"></path>
+      </motion.svg>
+    </motion.div>
   );
 }

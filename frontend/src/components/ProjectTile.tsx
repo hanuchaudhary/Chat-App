@@ -1,34 +1,36 @@
-import { FC } from "react";
-import { Link } from "react-router-dom";
+import { motion } from 'framer-motion';
+import { Users, ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 interface ProjectTileProps {
+  projectId: string;
   name: string;
   collaboraters: number;
-  projectId: string;
 }
 
-export const ProjectTile: FC<ProjectTileProps> = ({
-  name,
-  collaboraters,
-  projectId,
-}) => {
+export function ProjectTile({ projectId, name, collaboraters }: ProjectTileProps) {
   return (
-    <Link
-      to={`/project/${projectId}`}
-      className="bg-neutral-700 shadow-md rounded-xl p-2 flex justify-between items-center"
+    <motion.div
+      whileHover={{ scale: 1.03 }}
+      whileTap={{ scale: 0.98 }}
+      className="bg-gradient-to-br from-purple-700 to-indigo-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300"
     >
-      <h3 className="text-lg font-semibold capitalize text-white">{name}</h3>
-      <div>
-        <button
-          className="bg-white hover:bg-neutral-200 text-black px-4 py-2 rounded-xl font-semibold"
-          aria-label={`Open ${name} project`}
-        >
-          Open Project
-        </button>
-        <h2 className="font-semibold text-white text-center py-3">
-          Collaboraters {collaboraters}
-        </h2>
-      </div>
-    </Link>
+      <Link to={`/project/${projectId}`} className="block p-6">
+        <h2 className="text-xl font-bold text-white mb-2 truncate">{name}</h2>
+        <div className="flex justify-between items-center">
+          <div className="flex items-center text-purple-200">
+            <Users size={18} className="mr-2" />
+            <span>{collaboraters} collaborator{collaboraters !== 1 ? 's' : ''}</span>
+          </div>
+          <motion.div
+            whileHover={{ x: 5 }}
+            className="text-white"
+          >
+            <ArrowRight size={24} />
+          </motion.div>
+        </div>
+      </Link>
+    </motion.div>
   );
-};
+}
+

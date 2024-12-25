@@ -32,7 +32,7 @@ export const registerUserController = async (req: Request, res: Response) => {
             res.status(500).json({ message: "JWT_SECRET is not defined" });
             return;
         }
-        const token = jwt.sign({ email: user.email, id: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
+        const token = jwt.sign({ email: user.email, id: user._id }, process.env.JWT_SECRET, { expiresIn: "24h" });
 
         res.status(201).json({
             user: {
@@ -75,7 +75,7 @@ export const loginUserController = async (req: Request, res: Response) => {
             res.status(500).json({ message: "JWT_SECRET is not defined" });
             return;
         }
-        const token = jwt.sign({ email: user.email, id: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
+        const token = jwt.sign({ email: user.email, id: user._id }, process.env.JWT_SECRET, { expiresIn: "24h" });
 
         res.status(200).json({
             user: {
