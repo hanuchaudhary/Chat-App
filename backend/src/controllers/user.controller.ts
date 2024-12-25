@@ -125,9 +125,11 @@ export const logoutController = async (req: Request, res: Response) => {
 
 export const bulkUsersController = async (req: Request, res: Response) => {
     try {
-        const users = await userModel.find();
+        const users = await userModel.find({
+            _id: { $ne: req._id }
+        }, { password: 0 });
         res.status(200).json({
-            message : "Users fetched successfully",
+            message: "Users fetched successfully",
             users
         });
         return;

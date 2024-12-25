@@ -33,7 +33,7 @@ export const createProject = async (req: Request, res: Response) => {
 
 export const getProjects = async (req: Request, res: Response) => {
     try {
-        const projects = await projectModel.find({ users: req._id });
+        const projects = (await projectModel.find({ users: req._id }).populate('users', '-password'));
         res.status(200).json({
             success: true,
             projects
@@ -48,7 +48,7 @@ export const getProjects = async (req: Request, res: Response) => {
 export const getProjectById = async (req: Request, res: Response) => {
     try {
         const projectId = req.params.projectId;
-        const project = await projectModel.findOne({ _id: projectId }).populate('users');
+        const project = await projectModel.findOne({ _id: projectId }).populate('users', '-password');
         if (!project) {
             res.status(404).json({ message: "Project not found" });
             return;

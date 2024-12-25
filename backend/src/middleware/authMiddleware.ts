@@ -17,21 +17,24 @@ export const authMiddleware = async (req: Request, res: Response, next: NextFunc
         return;
     }
 
+
     const token = authHeader.split(" ")[1];
     if (!token) {
         res.status(401).json({ message: "Token is Required" });
         return;
     }
 
+    // console.log("authHeader", authHeader);
+    // console.log("Tokemn", token);
+
     const BlacklistToken = await redisClient.get(token);
     if (BlacklistToken) {
         res.status(403).json({ message: "Token is Blacklisted" });
         return;
     }
-
     jwt.verify(token, process.env.JWT_SECRET as string, (err, user) => {
         if (err) {
-            res.status(403).json({ message: "Invalid Token" });
+            res.status(403).json({ err, message: "Invalid Token" });
             return;
         }
         req._id = (user as JwtPayload).id;

@@ -1,15 +1,22 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "../config/customAxios";
 
 export const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const handleSignup = (e: React.FormEvent) => {
+  const navigate = useNavigate();
+  const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Email:", email);
-    console.log("Password:", password);
-    // Add your signup logic here
+    try {
+      const response = await axios.post("/users/login", { email, password });
+      const data = response.data;
+      localStorage.setItem("token",data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
+      navigate("/projects");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -71,7 +78,10 @@ export const Register = () => {
         <div className="text-center">
           <p className="mt-2 text-sm text-gray-600">
             Already have an account?{" "}
-            <Link to={"/login"} className="font-medium text-indigo-600 hover:text-indigo-500">
+            <Link
+              to={"/login"}
+              className="font-medium text-indigo-600 hover:text-indigo-500"
+            >
               Sign in
             </Link>
           </p>
@@ -80,4 +90,3 @@ export const Register = () => {
     </div>
   );
 };
-

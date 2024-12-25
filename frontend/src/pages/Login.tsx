@@ -1,15 +1,22 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "../config/customAxios";
 
 export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const handleLogin = (e: React.FormEvent) => {
+  const navigate = useNavigate();
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Email:", email);
-    console.log("Password:", password);
-    // Add your login logic here
+    try {
+      const response = await axios.post("/users/login", { email, password });
+      const data = response.data;
+      localStorage.setItem("token",data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
+      navigate("/projects");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
