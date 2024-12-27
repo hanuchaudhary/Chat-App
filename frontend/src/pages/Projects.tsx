@@ -21,14 +21,14 @@ export default function Projects() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="min-h-screen bg-gradient-to-br from-neutral-900 to-neutral-800 p-6 md:p-8 lg:p-12"
+      className="bg-neutral-100 dark:bg-neutral-900 mx-20 rounded-xl p-6 md:p-8 lg:p-12"
     >
       <div className="max-w-4xl mx-auto">
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={handleOpenDialog}
-          className="text-lg md:text-xl inline-flex items-center bg-gradient-to-r from-purple-600 to-indigo-700 text-white rounded-full px-6 py-3 font-semibold mb-8 shadow-lg hover:shadow-xl transition-all duration-300"
+          className="text-lg md:text-xl inline-flex items-center bg-green-500 rounded-full px-6 py-3 font-semibold mb-8 shadow-lg hover:shadow-xl transition-all duration-300"
         >
           <Plus className="mr-2" size={24} />
           Create New Project
@@ -48,7 +48,7 @@ export default function Projects() {
         transition={{ delay: 0.2 }}
         className="max-w-4xl mx-auto"
       >
-        <h1 className="text-white font-bold text-3xl md:text-4xl mb-6 flex items-center">
+        <h1 className="dark:text-white text-black font-bold text-3xl md:text-4xl mb-6 flex items-center">
           <FolderOpen className="mr-3" size={32} />
           Projects
         </h1>
@@ -97,9 +97,9 @@ export default function Projects() {
                   }}
                 >
                   <ProjectTile
+                    collaborators={project.users.length}
                     projectId={project._id}
                     name={project.name}
-                    collaboraters={project.users.length}
                   />
                 </motion.div>
               ))}

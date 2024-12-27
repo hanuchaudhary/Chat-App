@@ -16,12 +16,12 @@ export default function SlidingSidebar({
       animate={{ x: 0, opacity: 1 }}
       exit={{ x: -400, opacity: 0 }}
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
-      className="h-full z-[9999] fixed left-0 top-0 bg-gradient-to-br from-purple-900 via-indigo-900 to-blue-900 w-96 shadow-2xl rounded-r-3xl overflow-hidden"
+      className=" z-[9999] h-full fixed left-2 top-2 bg-white/50 dark:bg-black/50 backdrop-blur-xl text-black dark:text-white w-96 shadow-2xl rounded-2xl overflow-hidden"
     >
       <div className="p-6 h-full flex flex-col">
         <div className="flex justify-between items-center w-full mb-8">
           <motion.h1 
-            className="text-white text-3xl font-bold"
+            className="text-3xl font-bold"
             initial={{ y: -20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.2 }}
@@ -34,7 +34,7 @@ export default function SlidingSidebar({
           >
             <X
               onClick={handleOpen}
-              className="text-purple-900 h-8 w-8 font-bold cursor-pointer bg-white rounded-full p-1.5 shadow-lg hover:bg-purple-100 transition-colors duration-200"
+              className="h-8 w-8 font-bold cursor-pointer bg-white text-black rounded-full p-1.5 shadow-lg hover:bg-neutral-100 transition-colors duration-200"
             />
           </motion.div>
         </div>
@@ -59,7 +59,7 @@ export default function SlidingSidebar({
           </AnimatePresence>
         </motion.div>
         <motion.div 
-          className="mt-6 text-center text-white text-sm opacity-60"
+          className="mt-6 text-center text-sm opacity-60"
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 0.6 }}
           transition={{ delay: 0.4 }}

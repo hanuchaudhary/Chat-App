@@ -4,7 +4,7 @@ import { User } from "../../store/UserStore/useBulkUsersStore";
 export default function UserTile({ email }: User) {
   return (
     <motion.div
-      className="w-full flex items-center p-4 bg-gradient-to-r from-purple-500 to-indigo-600 rounded-xl shadow-lg cursor-pointer transition-all duration-300 hover:shadow-xl"
+      className="w-full flex items-center p-4 bg-white dark:bg-neutral-800 text-black dark:text-white rounded-xl shadow-lg cursor-pointer transition-all duration-300 hover:shadow-xl"
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
     >
@@ -18,10 +18,10 @@ export default function UserTile({ email }: User) {
         />
       </div>
       <div className="flex-grow">
-        <h2 className="text-lg font-semibold text-white truncate">{email}</h2>
+        <h2 className="text-lg font-semibold truncate">{email}</h2>
       </div>
       <motion.svg
-        className="w-6 h-6 text-white opacity-50"
+        className="w-6 h-6 opacity-50"
         fill="none"
         strokeLinecap="round"
         strokeLinejoin="round"

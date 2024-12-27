@@ -1,7 +1,9 @@
-import Routes from './routes/NavigationRoutes'
+import Routes from "./routes/NavigationRoutes";
 
 export default function App() {
   return (
-    <Routes/>
-  )
+    <div>
+      <Routes />
+    </div>
+  );
 }

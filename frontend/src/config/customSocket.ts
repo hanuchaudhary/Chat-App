@@ -1,27 +1,58 @@
-import socket, { Socket } from "socket.io-client";
+import { io, Socket } from 'socket.io-client';
 
-let socketInstance: Socket | null = null;
-
-export const initilizeSocket = (projectId: string) => {
-    socketInstance = socket("http://localhost:3000", {
-        auth: {
-            token: localStorage.getItem("token")
-        },
-        query: {
-            projectId
-        }
-    });
+interface ServerToClientEvents {
+  message: (data: string) => void;
+  error: (error: string) => void;
 }
 
-export const recieveMessage = (eventName: string, cb: (data: any) => void) => {
-    if (socketInstance) {
-        socketInstance.on(eventName, cb);
-    }
+interface MessageData {
+  message: string;
+  senderId: string;
 }
 
-export const sendMessage = (eventName: string, data: any) => {
-    if (socketInstance) {
-        socketInstance.emit(eventName, data)
-    }
-}
+let socketInstance: Socket<ServerToClientEvents> | null = null;
 
+export const initializeSocket = (projectId: string) => {
+  const token = localStorage.getItem('token');
+  if (!token) {
+    throw new Error('Authentication token is missing');
+  }  
+
+  socketInstance = io(import.meta.env.VITE_API_URL, {
+    auth: { token },
+    query: { projectId },
+    reconnection: true,
+    reconnectionAttempts: 5,
+    reconnectionDelay: 1000,
+  });
+
+  socketInstance.on('connect', () => {
+    console.log('Socket connected:', socketInstance?.id);
+  });
+
+  socketInstance.on('disconnect', (reason) => {
+    console.warn('Socket disconnected:', reason);
+  });
+
+  socketInstance.on('connect_error', (err) => {
+    console.error('Connection error:', err);
+  });
+
+  return socketInstance;
+};
+
+export const receiveMessage = (eventName: keyof ServerToClientEvents, cb: (data: any) => void) => {
+  if (!socketInstance) {
+    console.error('Socket not initialized. Call initializeSocket first.');
+    return;
+  }
+  socketInstance.on(eventName, cb);
+};
+
+export const sendMessage = (eventName: 'sendMessage', data: MessageData) => {
+  if (!socketInstance) {
+    console.error('Socket not initialized. Call initializeSocket first.');
+    return;
+  }
+  socketInstance.emit(eventName, data);
+};

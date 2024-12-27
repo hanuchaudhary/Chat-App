@@ -12,7 +12,7 @@ interface ChatProps {
 
 export function Chat({ messages, currentUser }: ChatProps) {
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 ">
       {messages.map((msg, index) => (
         <motion.div
           key={index}

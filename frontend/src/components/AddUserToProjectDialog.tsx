@@ -42,7 +42,7 @@ export default function AddUsersToProject() {
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         onClick={() => setIsOpen(true)}
-        className="bg-gradient-to-r from-purple-600 to-indigo-700 text-white font-semibold rounded-full px-6 py-3 flex items-center gap-2 shadow-lg hover:shadow-xl transition-all duration-300"
+        className="bg-green-500 text-white font-semibold rounded-full px-6 py-3 flex items-center gap-2 shadow-lg hover:shadow-xl transition-all duration-300"
       >
         <UserPlus2Icon className="w-5 h-5" />
         <span>Add Collaborators</span>
@@ -61,16 +61,16 @@ export default function AddUsersToProject() {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-md overflow-hidden"
+              className="bg-white dark:bg-neutral-800 rounded-2xl shadow-2xl w-full max-w-md overflow-hidden"
             >
               <div className="p-6">
                 <div className="flex justify-between items-center mb-6">
-                  <h2 className="text-2xl font-bold text-gray-800 dark:text-white">Select Users</h2>
+                  <h2 className="text-2xl font-bold text-neutral-800 dark:text-white">Select Users</h2>
                   <motion.button
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
                     onClick={() => setIsOpen(false)}
-                    className="text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-white"
+                    className="text-neutral-500 hover:text-neutral-700 dark:text-neutral-300 dark:hover:text-white"
                   >
                     <X className="w-6 h-6" />
                   </motion.button>
@@ -79,11 +79,11 @@ export default function AddUsersToProject() {
                   <input
                     type="text"
                     placeholder="Search users..."
-                    className="w-full p-3 pl-10 border border-gray-300 dark:border-gray-600 rounded-full focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                    className="w-full p-3 pl-10 border border-neutral-300 dark:border-neutral-600 rounded-full focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent bg-white dark:bg-neutral-700 text-neutral-900 dark:text-white"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                   />
-                  <ZoomIn className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 dark:text-gray-500" />
+                  <ZoomIn className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-neutral-400 dark:text-neutral-500" />
                 </div>
                 <div className="max-h-60 space-y-2 overflow-y-auto pr-2 custom-scrollbar">
                   <AnimatePresence>
@@ -96,8 +96,8 @@ export default function AddUsersToProject() {
                         transition={{ type: "spring", stiffness: 500, damping: 30 }}
                         className={`flex items-center p-3 rounded-lg cursor-pointer transition-all duration-200 ${
                           selectedUsers.includes(user._id)
-                            ? "bg-purple-100 dark:bg-purple-900 hover:bg-purple-200 dark:hover:bg-purple-800"
-                            : "hover:bg-gray-100 dark:hover:bg-gray-700"
+                            ? "bg-green-100 dark:bg-green-900 hover:bg-green-200 dark:hover:bg-green-800"
+                            : "hover:bg-neutral-100 dark:hover:bg-neutral-700"
                         }`}
                         onClick={() => toggleUserSelection(user._id)}
                       >
@@ -109,7 +109,7 @@ export default function AddUsersToProject() {
                           />
                         </div>
                         <div className="flex-grow">
-                          <div className="text-sm font-medium text-gray-900 dark:text-white">
+                          <div className="text-sm font-medium text-neutral-900 dark:text-white">
                             {user.email}
                           </div>
                         </div>
@@ -117,7 +117,7 @@ export default function AddUsersToProject() {
                           <motion.div
                             initial={{ scale: 0 }}
                             animate={{ scale: 1 }}
-                            className="ml-auto w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center"
+                            className="ml-auto w-6 h-6 bg-green-500 rounded-full flex items-center justify-center"
                           >
                             <svg
                               className="w-4 h-4 text-white"
@@ -139,12 +139,12 @@ export default function AddUsersToProject() {
                   </AnimatePresence>
                 </div>
               </div>
-              <div className="bg-gray-50 dark:bg-gray-700 px-6 py-4 flex justify-end items-center">
+              <div className="bg-neutral-50 dark:bg-neutral-700 px-6 py-4 flex justify-end items-center">
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => setIsOpen(false)}
-                  className="text-gray-600 dark:text-gray-300 font-medium px-4 py-2 rounded-full mr-2 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors duration-200"
+                  className="text-neutral-600 dark:text-neutral-300 font-medium px-4 py-2 rounded-full mr-2 hover:bg-neutral-200 dark:hover:bg-neutral-600 transition-colors duration-200"
                 >
                   Cancel
                 </motion.button>
@@ -153,7 +153,7 @@ export default function AddUsersToProject() {
                   whileTap={{ scale: 0.95 }}
                   onClick={addUsersToProject}
                   disabled={selectedUsers.length === 0 || addUserLoading}
-                  className={`bg-gradient-to-r from-purple-600 to-indigo-700 text-white font-semibold rounded-full px-6 py-2 flex items-center justify-center ${
+                  className={`bg-green-500 text-white font-semibold rounded-full px-6 py-2 flex items-center justify-center ${
                     selectedUsers.length === 0 || addUserLoading
                       ? "opacity-50 cursor-not-allowed"
                       : "hover:shadow-lg transition-all duration-300"

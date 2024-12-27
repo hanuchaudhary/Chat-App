@@ -16,15 +16,15 @@ export default function BottomInput({ onchange, value, onclick }: InputProps) {
       initial={{ y: 100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
-      className="fixed bottom-0 left-0 w-96 p-4 bg-gradient-to-r from-purple-900 to-indigo-900 rounded-tr-3xl shadow-lg"
+      className="absolute bottom-0 left-0 w-full p-4 bg-neutral-300 dark:bg-neutral-800 rounded-2xl shadow-lg"
     >
-      <div className="flex items-center justify-between bg-white bg-opacity-10 rounded-full p-2">
+      <div className="flex items-center justify-between bg-white dark:bg-neutral-600 rounded-full p-2">
         <motion.input
           onChange={onchange}
           value={value}
           type="text"
           placeholder="Type your message..."
-          className="flex-grow bg-transparent text-white placeholder-purple-300 px-4 py-2 focus:outline-none"
+          className="flex-grow bg-transparent text-black px-4 py-2 focus:outline-none"
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
           animate={isFocused ? { scale: 1.02 } : { scale: 1 }}
@@ -34,7 +34,7 @@ export default function BottomInput({ onchange, value, onclick }: InputProps) {
           onClick={onclick}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className="bg-purple-500 text-white rounded-full p-2 shadow-md hover:bg-purple-600 transition-colors duration-200"
+          className="bg-green-500 text-white rounded-full p-2 shadow-md hover:bg-green-600 transition-colors duration-200"
         >
           <Send size={20} />
         </motion.button>

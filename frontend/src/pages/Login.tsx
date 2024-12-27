@@ -13,7 +13,7 @@ export const Login = () => {
       const data = response.data;
       localStorage.setItem("token", `Bearer ${data.token}`);
       localStorage.setItem("user", JSON.stringify(data.user));
-      navigate("/projects");
+      navigate("/dashboard",{replace:true});
     } catch (error) {
       console.log(error);
     }

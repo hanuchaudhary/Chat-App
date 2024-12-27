@@ -10,24 +10,24 @@ export default function Project() {
   const handleSidebarOpen = () => setIsOpen(!isOpen);
   const { fetchSingleProject, project } = useSingleProjectStore();
 
-  
-
   const { projectId } = useParams();
   useEffect(() => {
     fetchSingleProject(projectId as string);
   }, [fetchSingleProject]);
 
   return (
-    <div className="h-screen bg-neutral-900 flex">
-      <AnimatePresence>
-        {isOpen && (
-          <SlidingSidebar
-            users={project.users}
-            handleOpen={handleSidebarOpen}
-          />
-        )}
-      </AnimatePresence>
-      <ChatBar project={project} handleOpen={handleSidebarOpen} />
+    <div className="flex">
+      <div className="m-2">
+        <AnimatePresence>
+          {isOpen && (
+            <SlidingSidebar
+              users={project.users}
+              handleOpen={handleSidebarOpen}
+            />
+          )}
+        </AnimatePresence>
+        <ChatBar project={project} handleOpen={handleSidebarOpen} />
+      </div>
     </div>
   );
 }
