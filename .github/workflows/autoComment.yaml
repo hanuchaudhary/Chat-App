@@ -9,14 +9,21 @@ on:
 jobs:
   auto-comment:
     runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
     steps:
-      - uses: actions/github-script@v7
+      - name: Auto Comment
+        uses: actions/github-script@v7
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN}}
+          github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
+            const issueComment = context.payload.issue
+              ? `Thank you for opening an issue, @${context.payload.issue.user.login}! We'll review it soon.`
+              : `Thank you for creating this pull request, @${context.payload.pull_request.user.login}! A reviewer will check it shortly.`;
             github.rest.issues.createComment({
-              issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: '👋 Thanks for reporting!'
-            })
+              issue_number: context.issue.number,
+              body: issueComment,
+            });
