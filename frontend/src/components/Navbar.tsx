@@ -1,18 +1,12 @@
-import { Link, useLocation, useParams } from "react-router-dom";
-import { useEffect } from "react";
+import { Link, useLocation} from "react-router-dom";
 import AddUsersToProject from "./AddUserToProjectDialog";
 import { ArrowLeft } from "lucide-react";
 import { motion } from "framer-motion";
 import { useProjectsStore } from "../store/ProjectsStore/useProjectsStore";
 
 export default function Navbar() {
-  const { fetchSingleProject, project } = useProjectsStore();
+  const { project } = useProjectsStore();
   const { pathname } = useLocation();
-  const { projectId } = useParams();
-  
-  useEffect(() => {
-    fetchSingleProject(projectId as string);
-  }, [fetchSingleProject]);
 
   return (
     <div className="p-2">

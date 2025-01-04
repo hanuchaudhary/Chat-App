@@ -1,26 +1,60 @@
 import { create } from "zustand";
-import { Socket, io } from 'socket.io-client'
+import { Socket, io } from 'socket.io-client';
+import { useProjectsStore } from "../ProjectsStore/useProjectsStore";
 
-const SocketURI = 'http://localhost:3000'
+const SOCKET_URI = 'http://localhost:3000';
 
-interface chatStore {
-    socket: null | Socket
-    connectSocket: () => void;
-    disconnectSocket: () => void
+export interface MessageData {
+    message: string;
+    senderId: string;
+    projectId: string;
+    email: string;
 }
 
-export const useChatStore = create<chatStore>((set, get) => ({
+interface ChatStore {
+    socket: Socket | null;
+    connectSocket: () => void;
+    disconnectSocket: () => void;
+    messages: MessageData[];
+    sendMessage: (messageData: MessageData) => void;
+}
+
+export const useChatStore = create<ChatStore>((set, get) => ({
     socket: null,
     connectSocket: () => {
-        const socket = io(SocketURI);
+        const projectId = useProjectsStore.getState().selectedProjectId;
+        if (!projectId) {
+            console.error("No project selected");
+            return;
+        }
+        const socket = io(SOCKET_URI, {
+            query: { projectId },
+            reconnectionDelay: 1000,
+        });
+
         socket.connect();
-        console.log("Socket Connected...");
-        set({ socket })
+        set({ socket });
+        socket.on("projectMessage", (messageData: MessageData) => {
+            const projectId = useProjectsStore.getState().selectedProjectId;
+            if (messageData.projectId === projectId) {
+            set((state) => ({ messages: [...state.messages, messageData] }));
+            }
+        });
+
     },
     disconnectSocket: () => {
         const socket = get().socket;
-        socket?.disconnect();
-        console.log("Socket Disconnected...");
-        set({ socket: null });
-    }
-}))
+        if (socket) {
+            socket.disconnect();
+            console.log("Socket Disconnected...");
+            set({ socket: null });
+        }
+    },
+    messages: [],
+    sendMessage: (messageData: MessageData) => {
+        const socket = get().socket;
+        if (socket) {
+            socket.emit("projectMessage", messageData);
+        }
+    },
+}));

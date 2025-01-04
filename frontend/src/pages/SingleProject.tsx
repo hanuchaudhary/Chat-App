@@ -2,19 +2,24 @@ import { useEffect, useState } from "react";
 import ChatBar from "../components/Sidebar/ChatBar";
 import SlidingSidebar from "../components/SlidingSidebar/SlidingSidebar";
 import { AnimatePresence } from "framer-motion";
-import { useParams } from "react-router-dom";
 import { useProjectsStore } from "../store/ProjectsStore/useProjectsStore";
+import { useChatStore } from "../store/Chatstore/useChatStore";
 
 export default function Project() {
   const [isOpen, setIsOpen] = useState(false);
   const handleSidebarOpen = () => setIsOpen(!isOpen);
-  const { fetchSingleProject, project } = useProjectsStore();
+  const { fetchSingleProject, selectedProjectId } = useProjectsStore();
+  const { connectSocket, disconnectSocket } = useChatStore();
 
-  const { projectId } = useParams();
-  console.log("P: ",projectId);
-  
   useEffect(() => {
-    fetchSingleProject(projectId as string);
+    if (selectedProjectId === "") {
+      return;
+    }
+    connectSocket();
+    fetchSingleProject();
+    return () => {
+      disconnectSocket();
+    };
   }, [fetchSingleProject]);
 
   return (
@@ -23,12 +28,11 @@ export default function Project() {
         <AnimatePresence>
           {isOpen && (
             <SlidingSidebar
-              users={project.users}
               handleOpen={handleSidebarOpen}
             />
           )}
         </AnimatePresence>
-        <ChatBar project={project} handleOpen={handleSidebarOpen} />
+        <ChatBar handleOpen={handleSidebarOpen} />
       </div>
     </div>
   );

@@ -6,7 +6,8 @@ import { Loader2, Plus, FolderOpen } from "lucide-react";
 import { CreateProjectDialog } from "../components/CreateProjectDialog";
 
 export default function Projects() {
-  const { fetchProjects, isLoading, projects } = useProjectsStore();
+  const { fetchProjects, isLoading, projects, setSelectedProjectId } =
+    useProjectsStore();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   useEffect(() => {
@@ -91,10 +92,7 @@ export default function Projects() {
               {projects.map((project) => (
                 <motion.div
                   key={project._id}
-                  variants={{
-                    hidden: { y: 20, opacity: 0 },
-                    visible: { y: 0, opacity: 1 },
-                  }}
+                  onClick={() => setSelectedProjectId(project._id)}
                 >
                   <ProjectTile
                     collaborators={project.users.length}

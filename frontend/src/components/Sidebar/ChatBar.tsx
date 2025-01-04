@@ -1,46 +1,9 @@
-import { Users} from "lucide-react";
+import { Users } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import BottomInput from "./BottomInput";
 import { Chat } from "./Chat";
-import { useEffect, useState } from "react";
-import {
-  initializeSocket,
-  receiveMessage,
-  sendMessage,
-} from "../../config/customSocket";
 
-export default function ChatBar({
-  handleOpen,
-  project,
-}: {
-  handleOpen: () => void;
-  project: any;
-}) {
-  const [message, setMessage] = useState("");
-  const [messages, setMessages] = useState<any[]>([]);
-  const user = JSON.parse(localStorage.getItem("user") || "{}");
-
-  function handleSendMessage() {
-    if (message.trim()) {
-      sendMessage("sendMessage", {
-        message: message,
-        senderId: user._id,
-      });
-      setMessage("");
-    }
-  }
-
-  useEffect(() => {
-    initializeSocket(project._id);
-    receiveMessage("message", (data) => {
-      setMessages((prevMessages) => [...prevMessages, data]);
-    });
-
-    return () => {
-      // Clean up socket connection
-    };
-  }, [project._id]);
-
+export default function ChatBar({ handleOpen }: { handleOpen: () => void }) {
   return (
     <motion.div
       initial={{ x: 400, opacity: 0 }}
@@ -49,8 +12,8 @@ export default function ChatBar({
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
       className="h-[85vh] relative bg-neutral-100 dark:bg-neutral-900 text-black dark:text-white w-96 rounded-2xl shadow-2xl overflow-hidden flex flex-col"
     >
-      <div className="flex-grow overflow-hidden flex flex-col">
-        <div className="p-4 flex justify-end items-center w-full">
+      <div className="flex-grow relative overflow-hidden flex flex-col">
+        <div className="absolute top-0 left-0 p-4 flex justify-end items-center ">
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -60,17 +23,11 @@ export default function ChatBar({
             <Users size={24} />
           </motion.button>
         </div>
-        <div className="flex-grow overflow-y-auto px-4 py-2">
-          <AnimatePresence>
-            <Chat messages={messages} currentUser={user} />
-          </AnimatePresence>
-        </div>
+        <AnimatePresence>
+          <Chat />
+        </AnimatePresence>
       </div>
-      <BottomInput
-        onclick={handleSendMessage}
-        onchange={(e) => setMessage(e.target.value)}
-        value={message}
-      />
+      <BottomInput />
     </motion.div>
   );
 }

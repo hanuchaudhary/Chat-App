@@ -24,12 +24,15 @@ interface BulkProjectsStore {
     fetchProjects: () => Promise<void>;
     createProject: (projectName: string) => Promise<void>;
 
+    selectedProjectId: string,
+    setSelectedProjectId: (projectId: string) => void;
+
     isSingleProjectLoading: boolean;
     project: singleProject;
-    fetchSingleProject: (projectId: string) => Promise<void>;
+    fetchSingleProject: () => Promise<void>;
 }
 
-export const useProjectsStore = create<BulkProjectsStore>((set) => ({
+export const useProjectsStore = create<BulkProjectsStore>((set, get) => ({
     isLoading: true,
     projects: [],
     fetchProjects: async () => {
@@ -57,7 +60,13 @@ export const useProjectsStore = create<BulkProjectsStore>((set) => ({
         _id: "",
         users: []
     },
-    fetchSingleProject: async (projectId: string) => {
+
+    selectedProjectId: "",
+    setSelectedProjectId: (projectId: string) => {
+        set({ selectedProjectId: projectId });
+    },
+    fetchSingleProject: async () => {
+        const projectId = get().selectedProjectId;
         try {
             set({ isSingleProjectLoading: true });
             const response = await axios.get(`/projects/get/${projectId}`);
