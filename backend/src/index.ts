@@ -10,6 +10,7 @@ import http from 'http';
 import mongoose from 'mongoose';
 import projectModel from './models/project.model';
 
+//db connect
 connect();
 const app = express();
 app.use(express.urlencoded({ extended: true }));
@@ -44,7 +45,6 @@ interface CustomSocket extends Socket {
 
 //socket.io middleware
 io.use(async (socket: CustomSocket, next) => {
-
     try {
         const token = socket.handshake.auth?.token || socket.handshake.headers.authorization?.split(' ')[1];
         if (!token) {

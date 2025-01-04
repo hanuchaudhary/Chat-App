@@ -2,15 +2,17 @@ import { useEffect, useState } from "react";
 import ChatBar from "../components/Sidebar/ChatBar";
 import SlidingSidebar from "../components/SlidingSidebar/SlidingSidebar";
 import { AnimatePresence } from "framer-motion";
-import { useSingleProjectStore } from "../store/ProjectsStore/useSingleProjectStore";
 import { useParams } from "react-router-dom";
+import { useProjectsStore } from "../store/ProjectsStore/useProjectsStore";
 
 export default function Project() {
   const [isOpen, setIsOpen] = useState(false);
   const handleSidebarOpen = () => setIsOpen(!isOpen);
-  const { fetchSingleProject, project } = useSingleProjectStore();
+  const { fetchSingleProject, project } = useProjectsStore();
 
   const { projectId } = useParams();
+  console.log("P: ",projectId);
+  
   useEffect(() => {
     fetchSingleProject(projectId as string);
   }, [fetchSingleProject]);

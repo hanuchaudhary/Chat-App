@@ -1,8 +1,15 @@
 import { create } from "zustand";
 import axios from "../../config/customAxios"
+import { User } from "../UserStore/useBulkUsersStore";
 
 interface user {
     _id: string;
+}
+
+interface singleProject {
+    name: string;
+    _id: string;
+    users: User[];
 }
 
 export interface projects {
@@ -16,6 +23,10 @@ interface BulkProjectsStore {
     projects: projects[];
     fetchProjects: () => Promise<void>;
     createProject: (projectName: string) => Promise<void>;
+
+    isSingleProjectLoading: boolean;
+    project: singleProject;
+    fetchSingleProject: (projectId: string) => Promise<void>;
 }
 
 export const useProjectsStore = create<BulkProjectsStore>((set) => ({
@@ -38,6 +49,23 @@ export const useProjectsStore = create<BulkProjectsStore>((set) => ({
             set({ projects: [...response.data.project] });
         } catch (error) {
             console.log(error);
+        }
+    },
+    isSingleProjectLoading: false,
+    project: {
+        name: "",
+        _id: "",
+        users: []
+    },
+    fetchSingleProject: async (projectId: string) => {
+        try {
+            set({ isSingleProjectLoading: true });
+            const response = await axios.get(`/projects/get/${projectId}`);
+            set({ project: response.data.project });
+        } catch (error) {
+            console.log(error);
+        } finally {
+            set({ isSingleProjectLoading: false });
         }
     }
 }));

@@ -1,13 +1,15 @@
 import { Link, useLocation, useParams } from "react-router-dom";
-import { useSingleProjectStore } from "../store/ProjectsStore/useSingleProjectStore";
 import { useEffect } from "react";
 import AddUsersToProject from "./AddUserToProjectDialog";
 import { ArrowLeft } from "lucide-react";
+import { motion } from "framer-motion";
+import { useProjectsStore } from "../store/ProjectsStore/useProjectsStore";
 
 export default function Navbar() {
-  const { fetchSingleProject, project } = useSingleProjectStore();
+  const { fetchSingleProject, project } = useProjectsStore();
   const { pathname } = useLocation();
   const { projectId } = useParams();
+  
   useEffect(() => {
     fetchSingleProject(projectId as string);
   }, [fetchSingleProject]);
@@ -26,9 +28,13 @@ export default function Navbar() {
           {pathname.startsWith("/project") && <AddUsersToProject />}
           {pathname.startsWith("/project") && (
             <Link to={"/dashboard"} replace>
-              <div className="flex items-center gap-2 dark:bg-neutral-100 dark:text-black bg-neutral-800 text-white font-semibold rounded-xl px-2 py-2">
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="flex items-center gap-2 dark:bg-neutral-100 dark:text-black bg-neutral-800 text-white font-semibold rounded-xl px-2 py-2"
+              >
                 <ArrowLeft /> Back
-              </div>
+              </motion.div>
             </Link>
           )}
         </div>
